@@ -34,7 +34,7 @@ script:
     cd /home/builder/twrp/
     source build/envsetup.sh
     BUILD_FLAVOR="userdebug"
-    lunch omni_X70-${BUILD_FLAVOR}
+    launch omni_X70-${BUILD_FLAVOR}
     make -j$(nproc --all) recoveryimage
     exit
     EOF
