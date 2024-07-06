@@ -1,0 +1,3 @@
+# Aliases extracted from modules themselves.
+alias fs-tntfs tntfs
+alias fs-texfat texfat
