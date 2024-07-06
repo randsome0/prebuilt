@@ -1,6 +1,6 @@
 os: linux
 dist: bionic
-language: ruby
+language: generic
 cache:
   directories:
     - /data/data/com.termux/files/home/.rvm/
