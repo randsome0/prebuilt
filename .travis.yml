@@ -18,15 +18,6 @@ addons:
       - true
 services:
   - docker
-env:
-  ANDROID_COMPILE_WITH_JACK: true
-  ANDROID_BUILD_TOP: /home/travis/build/NikitoRex/prebuilt
-android:
-  components:
-    - tools
-    - platform-tools
-    - build-tools-29.0.3
-    - android-29
 before_install:
   - docker pull fr3akyphantom/droid-builder:latest
 before_script:
