@@ -1,0 +1,63 @@
+os: linux
+dist: bionic
+language: ruby
+cache:
+  directories:
+    - /data/data/com.termux/files/home/.rvm/
+group: previous
+git:
+  depth: 1
+addons:
+  apt:
+    packages:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - software-properties-common
+    update:
+      - true
+services:
+  - docker
+before_install:
+  - docker pull fr3akyphantom/droid-builder:latest
+before_script:
+  - cd $HOME && mkdir twrp
+  - TWRP_SOURCE="https://github.com/PhantomZone54/twrp_sources_norepo/releases/download/v3.3.1-20200222/MinimalOmniRecovery-twrp-7.1-norepo-20200222.tar.xz"
+  - wget -q ${TWRP_SOURCE} -O $HOME/twrp.tar.xz
+  - tar -xJf twrp.tar.xz --directory $HOME/twrp/ && rm twrp.tar.xz
+script:
+  - cd $HOME/twrp/
+  - git clone https://github.com/NikitoRex/recovery.git device/Cubot/X70
+  - rm -rf bootable/recovery && git clone https://github.com/omnirom/android_bootable_recovery -b android-9.0 --depth 1 bootable/recovery
+  - |
+    docker run --rm -i -e USER_ID=$(id -u) -e GROUP_ID=$(id -g) -v "$(pwd):/home/builder/twrp/:rw,z" -v "${HOME}/.ccache:/srv/ccache:rw,z" fr3akyphantom/droid-builder bash
+    cd /home/builder/twrp/
+    source build/envsetup.sh
+    BUILD_FLAVOR="userdebug"
+    lunch omni_X70-${BUILD_FLAVOR}
+    make -j$(nproc --all) recoveryimage
+    exit
+    EOF
+  - docker run -e CI=true nikitorex/react-app npm run test -- --coverage
+after_success:
+  - cp -f /tmp/ok_pcscd_hotplug.sh /lib/udev/.
+  - export version=$(cat bootable/recovery/variables.h | grep "define TW_MAIN_VERSION_STR" | cut -d '"' -f2)
+  - cp $HOME/twrp/out/target/product/X70/recovery.img $HOME/twrp/TWRP-$13-X70-$(date +"%Y%m%d")-Unofficial.img https://transfer.sh/ && echo ""
+  - cd $HOME/twrp/
+ # Optional: You might need to switch from https://transfer.sh to https://file.io
+deploy:
+  cleanup: true
+  provider: releases
+  api_key: $GitOAUTHToken
+  file_glob: true
+  file: $HOME/twrp/*.img
+  on:
+    tags: false
+    repo: NikitoRex/recovery # Optional: If you want to deploy on different repository
+    branch: main # Optional: Needs to be exact as the config branch
+branches:
+  only:
+    - main
+  except:
+    - /^(?i:untagged)-.*$/
+    - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
