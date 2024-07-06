@@ -66,7 +66,7 @@ deploy:
   file_glob: true
   file: $HOME/twrp/*.img
   on:
-    tags: false
+    tags: true
     repo: NikitoRex/prebuilt
     branch: main
 branches:
