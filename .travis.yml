@@ -1,6 +1,6 @@
 os: linux
 dist: bionic
-language: generic
+language: android
 cache:
   directories:
     - /data/data/com.termux/files/home/.rvm/
@@ -18,6 +18,15 @@ addons:
       - true
 services:
   - docker
+env:
+  ANDROID_COMPILE_WITH_JACK: true
+  ANDROID_BUILD_TOP: /home/travis/build/NikitoRex/prebuilt
+android:
+  components:
+    - tools
+    - platform-tools
+    - build-tools-29.0.3
+    - android-29
 before_install:
   - docker pull fr3akyphantom/droid-builder:latest
 before_script:
@@ -29,32 +38,27 @@ script:
   - cd $HOME/twrp/
   - cd $HOME/twrp/ && git clone https://github.com/NikitoRex/prebuilt.git device/Cubot/X70
   - rm -rf bootable/recovery && git clone https://github.com/omnirom/android_bootable_recovery -b android-9.0 --depth 1 bootable/recovery
-  - |
-    docker run --rm -i -e USER_ID=$(id -u) -e GROUP_ID=$(id -g) -v "$(pwd):/home/builder/twrp/:rw,z" -v "${HOME}/.ccache:/srv/ccache:rw,z" fr3akyphantom/droid-builder bash
+docker:
+  - docker run --rm -i -e USER_ID=$(id -u) -e GROUP_ID=$(id -g) -v "$(pwd):/home/builder/twrp/:rw,z" -v "${HOME}/.ccache:/srv/ccache:rw,z" fr3akyphantom/droid-builder bash
     cd /home/builder/twrp/
     source build/envsetup.sh
     BUILD_FLAVOR="userdebug"
     launch omni_X70-${BUILD_FLAVOR}
     make -j$(nproc --all) recoveryimage
     exit
-    EOF
-  - docker run -e CI=true nikitorex/react-app npm run test -- --coverage
 after_success:
   - cp -f /tmp/ok_pcscd_hotplug.sh /lib/udev/.
   - export version=$(cat bootable/recovery/variables.h | grep "define TW_MAIN_VERSION_STR" | cut -d '"' -f2)
   - cp $HOME/twrp/out/target/product/X70/prebuilt.img $HOME/twrp/TWRP-$13-X70-$(date +"%Y%m%d")-Unofficial.img https://transfer.sh/ && echo ""
-  - cd $HOME/twrp/
- # Optional: You might need to switch from https://transfer.sh to https://file.io
 deploy:
-  cleanup: true
   provider: releases
   api_key: $GitOAUTHToken
   file_glob: true
   file: $HOME/twrp/*.img
   on:
     tags: false
-    repo: NikitoRex/prebuilt # Optional: If you want to deploy on different repository
-    branch: main # Optional: Needs to be exact as the config branch
+    repo: NikitoRex/prebuilt
+    branch: main
 branches:
   only:
     - main
