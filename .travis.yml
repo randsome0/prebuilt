@@ -1,7 +1,6 @@
 os: linux
 dist: bionic
 language: android
-sudo: required
 cache:
   directories:
     - /data/data/com.termux/files/home/.rvm/
