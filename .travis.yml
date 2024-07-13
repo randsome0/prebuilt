@@ -39,7 +39,7 @@ script:
   - rm -rf bootable/recovery
   - git clone https://github.com/omnirom/android_bootable_recovery -b android-9.0 --depth 1 bootable/recovery
   - |
-    docker run --rm -i \
+    docker run --rm -i 
       --name docker_droid-builder --hostname droid-builder \
       -e USER_ID=$(id -u) -e GROUP_ID=$(id -g) \
       -v "$HOME:/home/builder:rw,z" \
