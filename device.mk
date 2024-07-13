@@ -3,7 +3,7 @@
 # Copyright (C) 2023 The Team Win Recovery Project
 #
 
-LOCAL_PATH := device/cubot/X70
+LOCAL_PATH := /dev/block/platform/soc/11270000.ufshci/by-name
 
 # Dynamic
 PRODUCT_USE_DYNAMIC_PARTITIONS := true
