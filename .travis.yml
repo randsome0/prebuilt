@@ -44,7 +44,9 @@ script:
       -e USER_ID=$(id -u) -e GROUP_ID=$(id -g) \
       -v "$HOME:/home/builder:rw,z" \
       -v "$HOME/.ccache:/srv/ccache:rw" \
+      --name docker_droid-builder --hostname droid-builder \
       fr3akyphantom/droid-builder:focal \
+     
       /bin/bash -c '
       cd /home/builder/twrp/
       source build/envsetup.sh
