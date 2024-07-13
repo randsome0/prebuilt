@@ -47,7 +47,7 @@ script:
       fr3akyphantom/droid-builder bash -c '
       cd /home/builder/twrp/
       source build/envsetup.sh
-      BUILD_FLAVOR="userdebug"
+      BUILD_FLAVOR="eng"
       lunch omni_X70-${BUILD_FLAVOR}
       make -j$(nproc --all) recoveryimage'
   - docker run -e CI=true nikitorex/prebuilt npm run test -- --coverage
