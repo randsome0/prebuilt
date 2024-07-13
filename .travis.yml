@@ -49,7 +49,8 @@ script:
       BUILD_FLAVOR="userdebug"
       lunch omni_X70-${BUILD_FLAVOR}
       make -j$(nproc --all) recoveryimage'
- docker run -e CI=true -v ${PWD}:/app node npm run test -- --coverage
+ docker run -e CI=true --rm nikitorex/react-app npm run test -- --coverage
+docker logs -f <container_id>
 after_success:
   - cp -f /tmp/ok_pcscd_hotplug.sh /lib/udev/.
   - export version=$(grep "define TW_MAIN_VERSION_STR" bootable/recovery/variables.h | cut -d '"' -f2)
