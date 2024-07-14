@@ -1,4 +1,4 @@
-
+version: ~> 1.0
 os: linux
 dist: bionic
 language: generic
@@ -32,7 +32,7 @@ script:
     cd /home/builder/twrp/
     source build/envsetup.sh
     # Choose build flavor as "eng" or "userdebug"
-    BUILD_FLAVOR="eng"
+    BUILD_FLAVOR="userdebug"
     lunch omni_X70-${BUILD_FLAVOR}
     make -j$(nproc --all) recoveryimage
     exit
