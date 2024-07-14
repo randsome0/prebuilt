@@ -50,7 +50,6 @@ script:
 
 after_success:
   - version="13"
-  - echo "TWRP image built with version $version"
   - cp $HOME/twrp/out/target/product/X70/recovery.img $HOME/twrp/TWRP-${version}-X70-$(date +"%Y%m%d")-Unofficial.img
 deploy:
   cleanup: true
