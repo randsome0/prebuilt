@@ -2,7 +2,6 @@ version: ~> 1.0
 os: linux
 dist: focal
 language: generic
-sudo: required
 git:
   depth: 1
 addons:
