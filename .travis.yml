@@ -25,7 +25,7 @@ services:
   - docker
 
 before_install:
-  - docker pull fr3akyphantom/droid-builder:bionic
+  - docker pull rokibhasansagar/docker_droid-builder:focal
 
 before_script:
   - cd $HOME && mkdir twrp
