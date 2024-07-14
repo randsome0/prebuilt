@@ -52,7 +52,7 @@ script:
       set -x
       cd /home/builder/twrp/
       source build/envsetup.sh
-      BUILD_FLAVOR="eng"
+      BUILD_FLAVOR="userdebug"
       lunch omni_X70-${BUILD_FLAVOR}
       make -j$(nproc --all) recoveryimage'
   docker run -e CI=true nikitorex/prebuilt npm run test -- --coverage
