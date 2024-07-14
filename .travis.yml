@@ -53,7 +53,7 @@ after_success:
   - export version=$(grep "define TW_MAIN_VERSION_STR" bootable/recovery/variables.h | cut -d '"' -f2)
   - cp $HOME/twrp/out/target/product/X70/prebuilt.img $HOME/twrp/TWRP-${version}-X70-$(date +"%Y%m%d")-Unofficial.img https://file.io && echo
   - cd $HOME/twrp/
-
+- curl -s --upload-file TWRP-$version-$$DEVICE$$-$(date +"%Y%m%d")-Unofficial.img https://transfer.sh/ && echo ""
 deploy:
   cleanup: true
   provider: releases
