@@ -27,7 +27,6 @@ services:
 before_install:
   - docker --version
   - ruby --version
-  - gem install bundler
   - docker pull fr3akyphantom/droid-builder:latest
 
 before_script:
