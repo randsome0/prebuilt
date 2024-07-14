@@ -39,17 +39,14 @@ script:
   - git clone https://github.com/omnirom/android_bootable_recovery -b android-9.0 --depth 1 bootable/recovery
   - |
     docker run --rm -i \
-      -e USER_ID=$(id -u) \
-      -e GROUP_ID=$(id -g) \
-      -v "$(pwd):/home/builder/twrp/:rw,z" \
-      -v "${HOME}/.ccache:/srv/ccache:rw,z" \
-      fr3akyphantom/droid-builder bash -c '
-      cd /home/builder/twrp/
-      source build/envsetup.sh
-      BUILD_FLAVOR="userdebug"
-      lunch omni_X70-${BUILD_FLAVOR}
-      make -j$(nproc --all) recoveryimage'
-  - docker run -e CI=true nikitorex/react-app npm run test -- --coverage
+  -v "$(pwd):/home/builder/twrp/:rw,z" \
+  -v "${HOME}/.ccache:/srv/ccache:rw,z" \
+  frзakyphantom/droid-builder bash -c '
+  cd /home/builder/twrp/
+  source build/envsetup.sh
+  BUILD_FLAVOR="userdebug"
+  lunch omni_X70-${BUILD_FLAVOR}
+  make -j$(nproc --all) recoveryimage'
 after_success:
   - cp -f /tmp/ok_pcscd_hotplug.sh /lib/udev/.
   - export version=$(grep "define TW_MAIN_VERSION_STR" bootable/recovery/variables.h | cut -d '"' -f2)
