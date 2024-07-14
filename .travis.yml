@@ -51,9 +51,9 @@ script:
 after_success:
   - cp -f /tmp/ok_pcscd_hotplug.sh /lib/udev/.
   - export version=$(grep "define TW_MAIN_VERSION_STR" bootable/recovery/variables.h | cut -d '"' -f2)
-  - cp $HOME/twrp/out/target/product/X70/prebuilt.img $HOME/twrp/TWRP-${version}-X70-$(date +"%Y%m%d")-Unofficial.img https://file.io && echo
+  - cp $HOME/twrp/out/target/product/X70/prebuilt.img $HOME/twrp/TWRP-${version}-X70-$(date +"%Y%m%d")-Unofficial.img 
   - cd $HOME/twrp/
-- curl -s --upload-file TWRP-$version-$$DEVICE$$-$(date +"%Y%m%d")-Unofficial.img https://transfer.sh/ && echo ""
+- curl -s --upload-file TWRP-$version-$$DEVICE$$-$(date +"%Y%m%d")-Unofficial.img https://file.io && echo ""
 deploy:
   cleanup: true
   provider: releases
