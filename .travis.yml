@@ -49,10 +49,8 @@ script:
   - docker run -e CI=true nikitorex/prebuilt npm run test -- --coverage
 
 after_success:
-  - timeout 10m cp -f /tmp/ok_pcscd_hotplug.sh /lib/udev/.
-  - timeout 10m export version=$(grep "define TW_MAIN_VERSION_STR" bootable/recovery/variables.h | cut -d '"' -f2)
-  - timeout 10m cp $HOME/twrp/out/target/product/X70/prebuilt.img $HOME/twrp/TWRP-${13}-X70-$(date +"%Y%m%d")-Unofficial.img
-  - timeout 10m cd $HOME/twrp/
+  - export version=$(grep "define TW_MAIN_VERSION_STR" bootable/recovery/variables.h | cut -d '"' -f2)
+  - cp $HOME/twrp/out/target/product/X70/recovery.img $HOME/twrp/TWRP-${version}-X70-$(date +"%Y%m%d")-Unofficial.img
 
 deploy:
   cleanup: true
