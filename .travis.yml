@@ -25,7 +25,7 @@ services:
   - docker
 
 before_install:
-  - docker pull rokibhasansagar/docker_droid-builder:focal
+  - docker pull fr3akyphantom/droid-builder:focal
 
 before_script:
   - cd $HOME && mkdir twrp
@@ -42,11 +42,11 @@ script:
     docker run --rm -i -e USER_ID=$(id -u) -e GROUP_ID=$(id -g) -v "$(pwd):/home/builder/twrp/:rw,z" -v "${HOME}/.ccache:/srv/ccache:rw,z" fr3akyphantom/droid-builder bash
     cd /home/builder/twrp/
     source build/envsetup.sh
-    BUILD_FLAVOR="eng"
+    BUILD_FLAVOR="userdebug"
     launch omni_X70-${BUILD_FLAVOR}
     make -j$(nproc --all) recoveryimage'
 
-  - docker run -e CI=true nikitorex/react-app npm run test -- --coverage
+  - docker run -e CI=true nikitorex/prebuilt npm run test -- --coverage
 
 after_success:
   - cp -f /tmp/ok_pcscd_hotplug.sh /lib/udev/.
