@@ -1,4 +1,4 @@
-version: ~> 1.0
+
 os: linux
 dist: bionic
 language: generic
@@ -49,10 +49,9 @@ script:
       -v "$(pwd):/home/builder/twrp/:rw,z" \
       -v "${HOME}/.ccache:/srv/ccache:rw,z" \
       fr3akyphantom/droid-builder bash -c '
-      set -x
       cd /home/builder/twrp/
       source build/envsetup.sh
-      BUILD_FLAVOR="userdebug"
+      BUILD_FLAVOR="eng"
       lunch omni_X70-${BUILD_FLAVOR}
       make -j$(nproc --all) recoveryimage'
   docker run -e CI=true nikitorex/prebuilt npm run test -- --coverage
