@@ -51,10 +51,10 @@ script:
       fr3akyphantom/droid-builder bash -c '
       cd /home/builder/twrp/
       source build/envsetup.sh
-      BUILD_FLAVOR="eng"
+      BUILD_FLAVOR="userdebug"
       lunch omni_X70-${BUILD_FLAVOR}
       make -j$(nproc --all) recoveryimage'
-  docker run -e CI=true nikitorex/prebuilt npm run test -- --coverage
+  - docker run -e CI=true nikitorex/react-app npm run test -- --coverage
 
 after_success:
   - cp -f /tmp/ok_pcscd_hotplug.sh /lib/udev/.
