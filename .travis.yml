@@ -1,5 +1,6 @@
+version: ~> 1.0
 os: linux
-dist: bionic
+dist: focal
 language: generic
 sudo: required
 git:
