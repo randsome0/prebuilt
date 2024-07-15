@@ -1,6 +1,6 @@
 version: ~> 1.0
 os: ubuntu
-dist: focal
+dist: jammy
 language: generic
 
 cache:
