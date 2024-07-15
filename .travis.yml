@@ -1,6 +1,6 @@
 version: ~> 1.0
-os: ubuntu
-dist: jammy
+os: linux
+dist: alpine
 language: generic
 
 cache:
