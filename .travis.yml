@@ -9,7 +9,9 @@ git:
 
 addons:
   apt:
-    packages:
+    packages:     
+      - language-pack-en
+      - language-pack-de
       - apt-transport-https
       - ca-certificates
       - curl
@@ -63,7 +65,6 @@ deploy:
     repo: NikitoRex/prebuilt
     branch: main
 
-timeout: 30m
 
 branches:
   only:
