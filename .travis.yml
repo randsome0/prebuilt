@@ -25,7 +25,7 @@ services:
   - docker
 
 before_install:
-  - docker pull fr3akyphantom/droid-builder:focal
+ - docker pull fr3akyphantom/droid-builder
 
 before_script:
   - cd $HOME && mkdir twrp
@@ -39,7 +39,7 @@ script:
   - cd $HOME/twrp/ && git clone https://github.com/NikitoRex/prebuilt.git device/Cubot/X70
   - rm -rf bootable/recovery && git clone https://github.com/NikitoRex/android_bootable_recovery -b android-9.0 --depth 1 bootable/recovery
   - |
-    docker run --rm -i -e USER_ID=$(id -u) -e GROUP_ID=$(id -g) -v "$(pwd):/home/builder/twrp/:rw,z" -v "${HOME}/.ccache:/srv/ccache:rw,z" fr3akyphantom/droid-builder:focal bash -c "
+    docker run --rm -i -e USER_ID=$(id -u) -e GROUP_ID=$(id -g) -v "$(pwd):/home/builder/twrp/:rw,z" -v "${HOME}/.ccache:/srv/ccache:rw,z" fr3akyphantom/droid-builder bash -c "
     cd /home/builder/twrp/
     source build/envsetup.sh
     export BUILD_FLAVOR=\"eng\"
@@ -47,7 +47,6 @@ script:
     make -j$(nproc --all) recoveryimage
     make -j$(nproc --all) otapackage
   "
-
 after_success:
   - export version=$(grep "define TW_MAIN_VERSION_STR" bootable/recovery/variables.h | cut -d '"' -f2)
   - cp $HOME/twrp/out/target/product/X70/recovery.img $HOME/twrp/TWRP-${version}-X70-$(date +"%Y%m%d")-Unofficial.img
