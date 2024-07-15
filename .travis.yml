@@ -1,11 +1,8 @@
 version: ~> 1.0
 os: linux
 dist: focal
-language: generic
+language: ruby
 
-cache:
-  directories:
-    - /data/data/com.termux/files/home/.rvm/
 
 group: previous
 git:
