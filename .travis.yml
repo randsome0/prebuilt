@@ -1,5 +1,5 @@
 version: ~> 1.0
-os: linux
+os: ubuntu
 dist: focal
 language: generic
 
