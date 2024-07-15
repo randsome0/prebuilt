@@ -51,7 +51,6 @@ script:
 after_success:
   - export version=$(grep "define TW_MAIN_VERSION_STR" bootable/recovery/variables.h | cut -d '"' -f2)
   - cp $HOME/twrp/out/target/product/X70/prebuilt.img HOME/twrp/TWRP-{13}-X70-(date +"%Y%m%d")-Unofficial.img
-  -upload-file HOME/twrp/TWRP-{13}-X70-(date +"%Y%m%d")-Unofficial.img https://file.io && echo ""
   - cd $HOME/twrp/
 
 deploy:
