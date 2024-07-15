@@ -25,7 +25,7 @@ services:
   - docker
 
 before_install:
- - docker pull fr3akyphantom/droid-builder
+ - docker pull fr3akyphantom/droid-builder:focal
 
 before_script:
   - cd $HOME && mkdir twrp
@@ -39,13 +39,14 @@ script:
   - cd $HOME/twrp/ && git clone https://github.com/NikitoRex/prebuilt.git device/Cubot/X70
   - rm -rf bootable/recovery && git clone https://github.com/NikitoRex/android_bootable_recovery -b android-9.0 --depth 1 bootable/recovery
   - |
-    docker run --rm -i -e USER_ID=$(id -u) -e GROUP_ID=$(id -g) -v "$(pwd):/home/builder/twrp/:rw,z" -v "${HOME}/.ccache:/srv/ccache:rw,z" fr3akyphantom/droid-builder bash -c "
+    docker run --rm -i --privileged -e USER_ID=$(id -u) -e GROUP_ID=$(id -g) -v "$(pwd):/home/builder/twrp/:rw,z" -v "${HOME}/.ccache:/srv/ccache:rw,z" fr3akyphantom/droid-builder:focal bash -c "
     cd /home/builder/twrp/
     source build/envsetup.sh
     export BUILD_FLAVOR=\"eng\"
     lunch omni_X70-${BUILD_FLAVOR}
     make -j$(nproc --all) recoveryimage
     make -j$(nproc --all) otapackage
+    echo \"Make command output: \"$?
   "
 after_success:
   - export version=$(grep "define TW_MAIN_VERSION_STR" bootable/recovery/variables.h | cut -d '"' -f2)
