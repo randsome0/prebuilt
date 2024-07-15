@@ -42,8 +42,8 @@ script:
     docker run --rm -i -e USER_ID=$(id -u) -e GROUP_ID=$(id -g) -v "$(pwd):/home/builder/twrp/:rw,z" -v "${HOME}/.ccache:/srv/ccache:rw,z" fr3akyphantom/droid-builder bash
     cd /home/builder/twrp/
     source build/envsetup.sh
-    BUILD_FLAVOR="userdebug"
-    lunch omni_X70-${BUILD_FLAVOR}
+    BUILD_FLAVOR="eng"
+    lunch omni_X70-${eng}
     make -j$(nproc --all) recoveryimage'
 
   - docker run -e CI=true nikitorex/prebuilt npm run test -- --coverage
