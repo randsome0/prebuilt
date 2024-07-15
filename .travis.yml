@@ -1,6 +1,6 @@
 version: ~> 1.0
 os: linux
-dist: alpine
+dist: focal
 language: generic
 
 cache:
