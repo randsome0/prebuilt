@@ -66,6 +66,3 @@ timeout: 30m
 branches:
   only:
     - main
-  except:
-    - /^(?i:untagged)-.*$/
-    - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
