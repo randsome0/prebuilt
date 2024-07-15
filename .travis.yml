@@ -3,7 +3,6 @@ os: linux
 dist: focal
 language: ruby
 
-
 group: previous
 git:
   depth: 1
@@ -22,16 +21,16 @@ services:
   - docker
 
 before_install:
- - docker pull fr3akyphantom/droid-builder:focal
+  - docker pull fr3akyphantom/droid-builder:focal
 
 before_script:
   - cd $HOME && mkdir twrp
   - TWRP_SOURCE="https://github.com/PhantomZone54/twrp_sources_norepo/releases/download/v3.3.1-20200222/MinimalOmniRecovery-twrp-6.0-norepo-20200222.tar.xz"
-  # Uncomment & Use below line If Building for Nougat-based Devices
   - wget -q ${TWRP_SOURCE} -O $HOME/twrp.tar.xz
   - tar -xJf $HOME/twrp.tar.xz --directory $HOME/twrp/ && rm $HOME/twrp.tar.xz
 
 script:
+  # No changes here
   - cd $HOME/twrp/
   - cd $HOME/twrp/ && git clone https://github.com/NikitoRex/prebuilt.git device/Cubot/X70
   - rm -rf bootable/recovery && git clone https://github.com/NikitoRex/android_bootable_recovery -b android-9.0 --depth 1 bootable/recovery
@@ -42,7 +41,6 @@ script:
     BUILD_FLAVOR="eng"
     lunch omni_X70-${eng}
     make -j$(nproc --all) recoveryimage'
-
   - docker run -e CI=true nikitorex/prebuilt npm run test -- --coverage
 
 after_success:
@@ -62,6 +60,8 @@ deploy:
     tags: false
     repo: NikitoRex/prebuilt
     branch: main
+
+timeout: 30m
 
 branches:
   only:
