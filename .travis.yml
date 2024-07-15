@@ -22,7 +22,7 @@ services:
 
 before_install:
   - docker pull fr3akyphantom/droid-builder:focal
- - sudo apt-get update   
+  
  install: travis_wait 30 mvn install
 
 before_script:
