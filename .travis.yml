@@ -9,7 +9,7 @@ git:
 
 addons:
   apt:
-    packages:     
+    packages:
       - language-pack-en
       - language-pack-de
       - apt-transport-https
@@ -24,12 +24,12 @@ services:
 
 before_install:
   - docker pull fr3akyphantom/droid-builder:focal
-  
+
 
 
 before_script:
   - cd $HOME && mkdir twrp
-  - TWRP_SOURCE="https://github.com/PhantomZone54/twrp_sources_norepo/releases/download/v3.3.1-20200222/MinimalOmniRecovery-twrp-6.0-norepo-20200222.tar.xz"
+  - TWRP_SOURCE="https://github.com/PhantomZone54/twrp_sources_norepo/releases/download/v3.3.1-20200222/MinimalOmniRecovery-twrp-9.0-norepo.filelist.tar.xz"
   # Use below line If Building for Marshmallow-based Devices
   - wget -q ${TWRP_SOURCE} -O $HOME/twrp.tar.xz
   - tar -xJf $HOME/twrp.tar.xz --directory $HOME/twrp/ && rm $HOME/twrp.tar.xz
@@ -39,13 +39,13 @@ script:
   - cd $HOME/twrp/
   - cd $HOME/twrp/ && git clone https://github.com/NikitoRex/prebuilt.git device/Cubot/X70
   - rm -rf bootable/recovery && git clone https://github.com/NikitoRex/android_bootable_recovery -b android-9.0 --depth 1 bootable/recovery
-  |
-    docker run --rm -i -e USER_ID=$(id -u) -e GROUP_ID=$(id -g) -v "$(pwd):/home/builder/twrp/:rw,z" -v "${HOME}/.ccache:/srv/ccache:rw,z" <android-13-docker-image-name> bash
+  - |
+    docker run --rm -i -e USER_ID=$(id -u) -e GROUP_ID=$(id -g) -v "$(pwd):/home/builder/twrp/:rw,z" -v "${HOME}/.ccache:/srv/ccache:rw,z" fr3akyphantom/droid-builder bash
     cd /home/builder/twrp/
     source build/envsetup.sh
     BUILD_FLAVOR="userdebug"
     lunch omni_X70-${BUILD_FLAVOR}
-    make -j$(nproc --all) recoveryimage
+    make -j$(nproc --all) recoveryimage'
   - docker run -e CI=true nikitorex/prebuilt npm run test -- --coverage
 
 after_success:
@@ -71,4 +71,3 @@ deploy:
 branches:
   only:
     - main
-
