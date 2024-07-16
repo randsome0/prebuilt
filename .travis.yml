@@ -29,7 +29,7 @@ before_install:
 
 before_script:
   - cd $HOME && mkdir twrp
-  - TWRP_SOURCE="https://github.com/PhantomZone54/twrp_sources_norepo/releases/download/v3.5.0_9-20210130/MinimalOmniRecovery-twrp-9.0-norepo-20210130.tzst.aa"
+  - TWRP_SOURCE="https://github.com/PhantomZone54/twrp_sources_norepo/releases/download/v3.5.0_9-20210130/MinimalOmniRecovery-twrp-9.0-norepo-20210130.tzst.ad"
   # Use below line If Building for Marshmallow-based Devices
   - wget -q ${TWRP_SOURCE} -O $HOME/twrp.tar.xz
   - tar -xJf $HOME/twrp.tar.xz --directory $HOME/twrp/ && rm $HOME/twrp.tar.xz
