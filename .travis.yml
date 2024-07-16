@@ -55,7 +55,7 @@ after_success:
   - cd $HOME/twrp/
 
 deploy:
-  cleanup: true
+  cleanup: false
   provider: releases
   api_key: $GITHUB_OAUTH_TOKEN
   file_glob: true
