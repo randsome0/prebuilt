@@ -2,9 +2,14 @@ version: ~> 1.0
 os: linux
 dist: focal
 language: general
+android:
+  components:
+    - tools
+    - platform-tools
+    - android-13
 env:
   TWRP_DEVICE: X70
-  TWRP_VERSION: 9.0
+  TWRP_VERSION: 5.1
 
 group: previous
 git:
@@ -36,7 +41,7 @@ before_install:
 
 before_script:
   - cd $HOME && mkdir twrp
-  - TWRP_SOURCE="https://github.com/PhantomZone54/twrp_sources_norepo/releases/download/v3.3.1-20200222/MinimalOmniRecovery-twrp-9.0-norepo.filelist.tar.xz"
+  - TWRP_SOURCE="https://github.com/PhantomZone54/twrp_sources_norepo/releases/download/v3.3.1-20200222/MinimalOmniRecovery-twrp-5.1-norepo-20200222.tar.xz"
   # Use below line If Building for Marshmallow-based Devices
   - wget -q ${TWRP_SOURCE} -O $HOME/twrp.tar.xz
   - tar -xJf $HOME/twrp.tar.xz --directory $HOME/twrp/ && rm $HOME/twrp.tar.xz
@@ -57,7 +62,7 @@ script:
 
 after_success:
   - export version=$(grep "define TW_MAIN_VERSION_STR" bootable/recovery/variables.h | cut -d '"' -f2)
-  - cp $HOME/twrp/out/target/product/X70/prebuilt.img HOME/twrp/TWRP-{9.0}-X70-(date +"%Y%m%d")-Unofficial.img
+  - cp $HOME/twrp/out/target/product/X70/prebuilt.img HOME/twrp/TWRP-{5.1}-X70-(date +"%Y%m%d")-Unofficial.img https://file.io && echo ""
   - curl -s --upload-file TWRP-{13}-X70-(date +"%Y%m%d")-Unofficial.img https://file.io && echo ""
   - cd $HOME/twrp/
 
