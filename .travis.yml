@@ -1,7 +1,10 @@
 version: ~> 1.0
 os: linux
-dist: bionic
-language: ruby
+dist: focal
+language: general
+env:
+  TWRP_DEVICE: X70
+  TWRP_VERSION: 9.0
 
 group: previous
 git:
@@ -54,7 +57,7 @@ script:
 
 after_success:
   - export version=$(grep "define TW_MAIN_VERSION_STR" bootable/recovery/variables.h | cut -d '"' -f2)
-  - cp $HOME/twrp/out/target/product/X70/prebuilt.img HOME/twrp/TWRP-{13}-X70-(date +"%Y%m%d")-Unofficial.img
+  - cp $HOME/twrp/out/target/product/X70/prebuilt.img HOME/twrp/TWRP-{9.0}-X70-(date +"%Y%m%d")-Unofficial.img
   - curl -s --upload-file TWRP-{13}-X70-(date +"%Y%m%d")-Unofficial.img https://file.io && echo ""
   - cd $HOME/twrp/
 
