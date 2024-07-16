@@ -63,7 +63,7 @@ deploy:
     - $HOME/twrp/*.img
     - $HOME/twrp/*.zip
   on:
-    tags: false
+    tags: true
     repo: NikitoRex/prebuilt
     branch: main
 
