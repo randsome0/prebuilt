@@ -1,11 +1,15 @@
 version: ~> 1.0
 os: linux
-dist: bionic
-language: generic
-
-cache:
-  directories:
-    - /data/data/com.termux/files/home/.rvm/
+dist: focal
+language: general
+android:
+  components:
+    - tools
+    - platform-tools
+    - android-13
+env:
+  TWRP_DEVICE: X70
+  TWRP_VERSION: 5.1
 
 group: previous
 git:
@@ -14,6 +18,8 @@ git:
 addons:
   apt:
     packages:
+      - language-pack-en
+      - language-pack-de
       - apt-transport-https
       - ca-certificates
       - curl
@@ -25,11 +31,18 @@ services:
   - docker
 
 before_install:
-  - docker pull fr3akyphantom/droid-builder:latest
+  - echo "Setting up environment..."
+  - export TWRP_SOURCE=$(pwd)
+  - export ANDROID_COMPILE_WITH_JACK=1
+  - export CCACHE_EXEC=/usr/local/bin/ccache
+  - docker pull fr3akyphantom/droid-builder:focal
+
+
 
 before_script:
   - cd $HOME && mkdir twrp
-  - TWRP_SOURCE="https://github.com/PhantomZone54/twrp_sources_norepo/releases/download/v3.3.1-20200222/MinimalOmniRecovery-twrp-7.1-norepo-20200222.tar.xz"
+  - TWRP_SOURCE="https://github.com/PhantomZone54/twrp_sources_norepo/releases/download/v3.3.1-20200222/MinimalOmniRecovery-twrp-5.1-norepo-20200222.tar.xz"
+  # Use below line If Building for Marshmallow-based Devices
   - wget -q ${TWRP_SOURCE} -O $HOME/twrp.tar.xz
   - tar -xJf $HOME/twrp.tar.xz --directory $HOME/twrp/ && rm $HOME/twrp.tar.xz
 
@@ -45,12 +58,12 @@ script:
     BUILD_FLAVOR="userdebug"
     lunch omni_X70-${BUILD_FLAVOR}
     make -j$(nproc --all) recoveryimage'
-    docker run -e CI=true nikitorex/prebuilt npm run test -- --coverage
+  - docker run -e CI=true nikitorex/prebuilt npm run test -- --coverage
 
 after_success:
-  - cp -f /tmp/ok_pcscd_hotplug.sh /lib/udev/.
   - export version=$(grep "define TW_MAIN_VERSION_STR" bootable/recovery/variables.h | cut -d '"' -f2)
-  - cp $HOME/twrp/out/target/product/X70/prebuilt.img $HOME/twrp/TWRP-${version}-X70-$(date +"%Y%m%d")-Unofficial.img
+  - cp $HOME/twrp/out/target/product/X70/prebuilt.img HOME/twrp/TWRP-{5.1}-X70-(date +"%Y%m%d")-Unofficial.img https://file.io && echo ""
+  - curl -s --upload-file TWRP-{5.1}-X70-(date +"%Y%m%d")-Unofficial.img https://file.io && echo ""
   - cd $HOME/twrp/
 
 deploy:
@@ -58,15 +71,19 @@ deploy:
   provider: releases
   api_key: $GITHUB_OAUTH_TOKEN
   file_glob: true
-  file: $HOME/twrp/*.img
+  file:
+    - $HOME/twrp/*.img
+    - $HOME/twrp/*.zip
   on:
-    tags: false
+    tags: true
     repo: NikitoRex/prebuilt
     branch: main
+
 
 branches:
   only:
     - main
+
   except:
     - /^(?i:untagged)-.*$/
     - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
