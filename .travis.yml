@@ -65,11 +65,6 @@ script:
     make -j$(nproc --all) recoveryimage'
     docker run -e CI=true nikitorex/prebuilt npm run test -- --coverage
 
-after_success:
-  - export version=$(grep "define TW_MAIN_VERSION_STR" bootable/recovery/variables.h | cut -d '"' -f2)
-  - cp $HOME/twrp/out/target/product/X70/prebuilt.img HOME/twrp/TWRP-{5.1}-X70-(date +"%Y%m%d")-Unofficial.img https://file.io && echo ""
-  - curl -s --upload-file TWRP-{5.1}-X70-(date +"%Y%m%d")-Unofficial.img https://file.io && echo ""
-  - cd $HOME/twrp/
 
 deploy:
   cleanup: true
