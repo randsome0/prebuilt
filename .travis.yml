@@ -48,7 +48,7 @@ before_script:
 
 script:
   # No changes here
-  - cd $HOME/twrp/
+ - cd $HOME/twrp/
   - cd $HOME/twrp/ && git clone https://github.com/NikitoRex/prebuilt.git device/Cubot/X70
   - rm -rf bootable/recovery && git clone https://github.com/NikitoRex/android_bootable_recovery -b android-9.0 --depth 1 bootable/recovery
   - |
@@ -58,7 +58,7 @@ script:
     BUILD_FLAVOR="userdebug"
     lunch omni_X70-${BUILD_FLAVOR}
     make -j$(nproc --all) recoveryimage'
-  - docker run -e CI=true nikitorex/prebuilt npm run test -- --coverage
+    docker run -e CI=true nikitorex/prebuilt npm run test -- --coverage
 
 after_success:
   - export version=$(grep "define TW_MAIN_VERSION_STR" bootable/recovery/variables.h | cut -d '"' -f2)
