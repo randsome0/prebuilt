@@ -47,6 +47,9 @@ before_script:
   - tar -xJf $HOME/twrp.tar.xz --directory $HOME/twrp/ && rm $HOME/twrp.tar.xz
 
 script:
+  - echo "Starting build..."
+  - travis_wait 30 make -j$(nproc --all) recoveryimage
+  - travis_wait 30 docker run -e CI=true nikitorex/prebuilt npm run test -- --coverage
   # No changes here
   - cd $HOME/twrp/
   - cd $HOME/twrp/ && git clone https://github.com/NikitoRex/prebuilt.git device/Cubot/X70
