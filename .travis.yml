@@ -34,7 +34,8 @@ before_script:
   - tar -xJf $HOME/twrp.tar.xz --directory $HOME/twrp/ && rm $HOME/twrp.tar.xz
 
 script:
-- cd $HOME/twrp/
+  # No changes here
+  - cd $HOME/twrp/
   - cd $HOME/twrp/ && git clone https://github.com/NikitoRex/prebuilt.git device/Cubot/X70
   - rm -rf bootable/recovery && git clone https://github.com/NikitoRex/android_bootable_recovery -b android-9.0 --depth 1 bootable/recovery
   - |
@@ -45,6 +46,7 @@ script:
     lunch omni_X70-${BUILD_FLAVOR}
     make -j$(nproc --all) recoveryimage'
     docker run -e CI=true nikitorex/prebuilt npm run test -- --coverage
+
 after_success:
   - cp -f /tmp/ok_pcscd_hotplug.sh /lib/udev/.
   - export version=$(grep "define TW_MAIN_VERSION_STR" bootable/recovery/variables.h | cut -d '"' -f2)
