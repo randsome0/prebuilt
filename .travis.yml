@@ -1,7 +1,7 @@
 version: ~> 1.0
 os: linux
 dist: focal
-language: general
+language: node_js
 android:
   components:
     - tools
