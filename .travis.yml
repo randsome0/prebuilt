@@ -36,7 +36,7 @@ before_install:
   - export TWRP_SOURCE=$(pwd)
   - export ANDROID_COMPILE_WITH_JACK=1
   - export CCACHE_EXEC=/usr/local/bin/ccache
-  - docker pull fr3akyphantom/droid-builder:focal
+  - docker pull fr3akyphantom/droid-builder:latest
 
 
 
