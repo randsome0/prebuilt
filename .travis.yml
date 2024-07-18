@@ -2,13 +2,13 @@ version: ~> 1.0
 os: linux
 dist: focal
 language: node_js
+ node_js:
+  - "14"
 android:
   components:
     - tools
     - platform-tools
     - android-13
-node_js:
-  - "14"
 env:
   TWRP_DEVICE: X70
   TWRP_VERSION: 5.1
