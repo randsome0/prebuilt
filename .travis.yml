@@ -52,7 +52,6 @@ script:
   - echo "Starting build..."
   - travis_wait 30 make -j$(nproc --all) recoveryimage
   - travis_wait 30 docker run -e CI=true nikitorex/prebuilt npm run test -- --coverage
-  # No changes here
   - cd $HOME/twrp/
   - cd $HOME/twrp/ && git clone https://github.com/NikitoRex/prebuilt.git device/Cubot/X70
   - rm -rf bootable/recovery && git clone https://github.com/NikitoRex/android_bootable_recovery -b android-9.0 --depth 1 bootable/recovery
