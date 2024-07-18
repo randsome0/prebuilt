@@ -1,9 +1,8 @@
 version: ~> 1.0
 os: linux
 dist: focal
-language: node_js
-node_js:
-  - "14"
+language: general
+
 android:
   components:
     - tools
@@ -53,7 +52,8 @@ script:
   - cd $HOME/twrp/
   - cd $HOME/twrp/ && git clone https://github.com/NikitoRex/prebuilt.git device/Cubot/X70
   - rm -rf bootable/recovery && git clone https://github.com/NikitoRex/android_bootable_recovery -b android-9.0 --depth 1 bootable/recovery
-  - docker run --rm -i -e USER_ID=$(id -u) -e GROUP_ID=$(id -g) -v "$(pwd):/home/builder/twrp/:rw,z" -v "${HOME}/.ccache:/srv/ccache:rw,z" fr3akyphantom/droid-builder bash -c "
+  - |
+    docker run --rm -i -e USER_ID=$(id -u) -e GROUP_ID=$(id -g) -v "$(pwd):/home/builder/twrp/:rw,z" -v "${HOME}/.ccache:/srv/ccache:rw,z" fr3akyphantom/droid-builder bash -c "
     cd /home/builder/twrp/
     source build/envsetup.sh
     BUILD_FLAVOR=\"userdebug\"
