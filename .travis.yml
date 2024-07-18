@@ -50,19 +50,17 @@ before_script:
 
 script:
   - echo "Starting build..."
-  - travis_wait 30 make -j$(nproc --all) recoveryimage
-  - travis_wait 30 docker run -e CI=true nikitorex/prebuilt npm run test -- --coverage
   - cd $HOME/twrp/
   - cd $HOME/twrp/ && git clone https://github.com/NikitoRex/prebuilt.git device/Cubot/X70
   - rm -rf bootable/recovery && git clone https://github.com/NikitoRex/android_bootable_recovery -b android-9.0 --depth 1 bootable/recovery
-  - |
-    docker run --rm -i -e USER_ID=$(id -u) -e GROUP_ID=$(id -g) -v "$(pwd):/home/builder/twrp/:rw,z" -v "${HOME}/.ccache:/srv/ccache:rw,z" fr3akyphantom/droid-builder bash
+  - docker run --rm -i -e USER_ID=$(id -u) -e GROUP_ID=$(id -g) -v "$(pwd):/home/builder/twrp/:rw,z" -v "${HOME}/.ccache:/srv/ccache:rw,z" fr3akyphantom/droid-builder bash -c "
     cd /home/builder/twrp/
     source build/envsetup.sh
-    BUILD_FLAVOR="userdebug"
+    BUILD_FLAVOR=\"userdebug\"
     lunch omni_X70-${BUILD_FLAVOR}
-    make -j$(nproc --all) recoveryimage'
-    docker run -e CI=true nikitorex/prebuilt npm run test -- --coverage
+    make -j$(nproc --all) recoveryimage
+  "
+  - docker run -e CI=true nikitorex/prebuilt npm run test -- --coverage
 
 after_success:
   - export version=$(grep "define TW_MAIN_VERSION_STR" bootable/recovery/variables.h | cut -d '"' -f2)
